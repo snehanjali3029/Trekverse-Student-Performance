@@ -438,7 +438,7 @@ if submit:
     )
 
     st.header("📚 Personalized Learning Recommendations")
-
+    
     for recommendation in recommendations:
         st.markdown(
             f"""
@@ -448,6 +448,34 @@ if submit:
             """,
             unsafe_allow_html=True
         )
+
+    # -----------------------------
+    # Download Prediction Summary
+    # -----------------------------
+    summary_lines = [
+        "Student Performance Prediction Summary",
+        "========================================",
+        f"Predicted Final Grade (G3): {prediction:.2f} / 20",
+        f"Absence Level: {absence_level}",
+        f"Number of Absences: {absences}",
+        f"Previous Failures: {failures}",
+        f"Study Time: {studytime}",
+        "",
+        "Personalized Recommendations:",
+    ]
+
+    for index, recommendation in enumerate(recommendations, start=1):
+        summary_lines.append(f"{index}. {recommendation}")
+
+    summary_text = "\n".join(summary_lines)
+
+    st.download_button(
+        label="📥 Download Prediction Summary",
+        data=summary_text,
+        file_name="student_prediction_summary.txt",
+        mime="text/plain",
+        use_container_width=True,
+    )
 
     # -----------------------------
     # Explainable AI - SHAP
